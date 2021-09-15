@@ -19,3 +19,6 @@ jobs:
     - run: yarn --frozen-lockfile
     - run: npx playwright install
     - run: yarn update-snapshots
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
