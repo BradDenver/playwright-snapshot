@@ -15,7 +15,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-        cache: 'npm'
-    - run: npm ci
+        cache: 'yarn'
+    - run: yarn --frozen-lockfile
     - run: npx playwright install
-    - run: npm test
+    - run: yarn test
