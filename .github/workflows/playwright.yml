@@ -18,4 +18,4 @@ jobs:
         cache: 'yarn'
     - run: yarn --frozen-lockfile
     - run: npx playwright install
-    - run: yarn test
+    - run: yarn update-snapshots
