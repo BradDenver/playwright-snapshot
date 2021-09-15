@@ -2,6 +2,7 @@
   "devDependencies": {
     "@playwright/test": "^1.14.1"
   },
+  "license": "MIT",
   "scripts": {
     "test": "npx playwright test"
   }
