@@ -24,3 +24,13 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       with:
           base: ${{ github.head_ref }}
+    - name: Check outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request Operation - ${{ steps.cpr.outputs.pull-request-operation }}"
+    - name: Fail if changed
+      if: ${{ steps.cpr.outputs.pull-request-operation }} != "closed"
+      uses: actions/github-script@v3
+      with:
+        script: |
+          core.setFailed('Failed build until snapshots are updated')
