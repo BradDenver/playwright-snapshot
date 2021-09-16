@@ -23,4 +23,4 @@ jobs:
       id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
-          base: ${{ env.GITHUB_REF }}
+          base: ${{ env.GITHUB_WORKFLOW }}
