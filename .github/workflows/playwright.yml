@@ -29,7 +29,7 @@ jobs:
         echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
         echo "Pull Request Operation - ${{ steps.cpr.outputs.pull-request-operation }}"
     - name: Fail if changed
-      if: ${{ steps.cpr.outputs.pull-request-operation }} != "closed"
+      if: steps.cpr.outputs.pull-request-number != null && steps.cpr.outputs.pull-request-operation != 'closed'
       uses: actions/github-script@v3
       with:
         script: |
