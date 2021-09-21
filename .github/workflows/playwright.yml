@@ -23,10 +23,11 @@ jobs:
       id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
-          base: ${{ github.head_ref }}
-          branch: ${{ github.head_ref }}-snapshot-patch
-          title: 'chore(ui): update snapshots'
-          reviewers: ${{ github.actor }}
+        base: ${{ github.head_ref }}
+        branch: ${{ github.head_ref }}-snapshot-patch
+        delete-branch: true
+        reviewers: ${{ github.actor }}
+        title: 'chore(ui): update snapshots'
     - name: Check outputs
       run: |
         echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
