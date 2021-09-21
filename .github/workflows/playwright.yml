@@ -26,6 +26,7 @@ jobs:
           base: ${{ github.head_ref }}
           branch: ${{ github.head_ref }}-snapshot-patch
           title: 'chore(ui): update snapshots'
+          reviewers: ${{ github.actor }}
     - name: Check outputs
       run: |
         echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
