@@ -1,0 +1,40 @@
+name: playwright
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'yarn'
+    - run: yarn --frozen-lockfile
+    - run: npx playwright install
+    - run: yarn update-snapshots
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
+      with:
+        base: ${{ github.head_ref }}
+        branch: ${{ github.head_ref }}-snapshot-patch
+        delete-branch: true
+        reviewers: ${{ github.actor }}
+        title: 'chore(ui): update snapshots'
+    - name: Check outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request Operation - ${{ steps.cpr.outputs.pull-request-operation }}"
+    - name: Fail if changed
+      if: steps.cpr.outputs.pull-request-number != null && steps.cpr.outputs.pull-request-operation != 'closed'
+      uses: actions/github-script@v3
+      with:
+        script: |
+          core.setFailed('Failed build until snapshots are updated')
