@@ -32,9 +32,20 @@ jobs:
       run: |
         echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
         echo "Pull Request Operation - ${{ steps.cpr.outputs.pull-request-operation }}"
+    - name: Comment if PR
+      if: steps.cpr.outputs.pull-request-number != null && steps.cpr.outputs.pull-request-operation == 'created'
+      uses: actions/github-script@v4
+      with:
+        script: |
+          github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: ${{ steps.cpr.outputs.pull-request-number }} + '# snapshot patch PR created'
+            })
     - name: Fail if changed
       if: steps.cpr.outputs.pull-request-number != null && steps.cpr.outputs.pull-request-operation != 'closed'
-      uses: actions/github-script@v3
+      uses: actions/github-script@v4
       with:
         script: |
           core.setFailed('Failed build until snapshots are updated')
