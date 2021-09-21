@@ -41,7 +41,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: steps.cpr.outputs.pull-request-number + '# snapshot patch PR created'
+              body: ${{ steps.cpr.outputs.pull-request-number }} + '# snapshot patch PR created'
             })
     - name: Fail if changed
       if: steps.cpr.outputs.pull-request-number != null && steps.cpr.outputs.pull-request-operation != 'closed'
